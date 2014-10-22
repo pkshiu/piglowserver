@@ -123,6 +123,17 @@ setup the address by using a local configuration file:
     export PGS_SETTINGS=local_config.py
 ```
 
+# Running the Server at Boot Time
+
+If you want to run the servers at boot time on the RPi, the easy way is to launch them from `rc.local` . For example, I put these two lines in my `/etc/rc.local` file to start both the API and the web server installed in my virtualenv directory (lines wrapped for display only):
+
+```
+/home/pi/.virtualenvs/piglowserver/bin/python \
+    /home/pi/webapps/piglowserver/src/piglowserver/pg_rest_server.py &
+/home/pi/.virtualenvs/piglowserver/bin/python \
+    /home/pi/webapps/piglowserver/src/piglowserver/pg_control.py &
+```
+
 # License
 This project is licensed under the MIT license.
 
