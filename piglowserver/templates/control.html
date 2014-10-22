@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>PiGlow Control</h1>
+<div class="row">
+    <div class="col-sm-12">
+This server talks to a PiGlow RESTful API server located at {{ api_server }} to control
+the PiGlow on that RPi.
+</div>
+</div>
+&nbsp;
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <h2>Control LEDs</h2>
+        <p>
+            Select LEDs and set all their brightness to the value below. Any LEDs not selected
+            will be turned off.
+        </p>
+
+        <form class="form" method="post" action="/set_leds">
+            <div class="form-group col-sm-6">
+
+                {% for arm in arm_list %}
+                <div class="form-control">
+                    {% for led in arm %}
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="checkbox_led_{{led.led_id}}" name="led_{{ led.led_id }}">{{"%02d"|format(led.led_id) }}
+                    </label>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label for="brightness">Brightness</label>
+                <input class="form-control" name="brightness" value="100" />
+            </div>
+
+            <div class="form-group col-sm-6">
+                <button type="submit" class="btn btn-primary">Update LEDs</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>{# panel #}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Control Single LED</h2>
+
+        <form method="post" action="/set_led">
+
+            <div class="form-group col-sm-2">
+                <label for="led_id">LED</label>
+                <select class="form-control" name="led_id">
+                    {% for led in led_list %}
+                    <option>{{ led.led_id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label for="brightness">Brightness</label>
+                <select class="form-control" name="brightness">
+                    <option>0</option>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>150</option>
+                    <option>200</option>
+                    <option>255</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group col-sm-6">
+                <button type="submit" class="btn btn-primary">Set LED</button>
+            </div>
+        </form>
+    </div>
+</div>{# panel #}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Control Arms</h2>
+        <form method="post" action="/set_arms">
+
+            <div class="form-group col-sm-6">
+                <div class="form-control">
+                    {% for arm in [1,2,3] %}
+
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="checkbox_arm_{{arm}}" name="arm_{{ arm }}">{{ arm }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-sm-12"></div>
+            <div class="form-group col-sm-2">
+                <label for="brightness">Brightness</label>
+                <input class="form-control" name="brightness" value="100" />
+            </div>
+            <div class="col-sm-12"></div>
+            <div class="form-group col-sm-6">
+                <button type="submit" class="btn btn-primary">Update Arms</button>
+            </div>
+        </form>
+    </div>
+</div>{# panel #}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Control Colors</h2>
+        <form method="post" action="/set_colors">
+
+            <div class="form-group col-sm-6">
+                <div class="form-control">
+                    {% for color in [1,2,3,4,5,6] %}
+
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="checkbox_color_{{color}}" name="color_{{ color }}">{{ color }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-sm-12"></div>
+            <div class="form-group col-sm-2">
+                <label for="brightness">Brightness</label>
+                <input class="form-control" name="brightness" value="100" />
+            </div>
+            <div class="col-sm-12"></div>
+            <div class="form-group col-sm-6">
+                <button type="submit" class="btn btn-primary">Update Colors</button>
+            </div>
+        </form>
+    </div>
+</div>{# panel #}
+{% endblock %}
+
