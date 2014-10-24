@@ -134,6 +134,12 @@ If you want to run the servers at boot time on the RPi, the easy way is to launc
     /home/pi/webapps/piglowserver/src/piglowserver/pg_control.py &
 ```
 
+# Architecture
+
+This diagram shows how you can use varies pieces of __piglowserver__
+
+![Usage Examples](pg_rest_server.png)
+
 # License
 This project is licensed under the MIT license.
 
