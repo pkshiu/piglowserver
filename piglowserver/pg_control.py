@@ -4,6 +4,8 @@
 """
 import requests
 import json
+import os
+
 
 from flask import (Flask, url_for, redirect)
 from flask import (render_template, request)
@@ -100,6 +102,18 @@ def set_colors():
 
     return redirect(url_for('show_control'))
 
+
+@app.route('/app', methods=['GET', ])
+def app_view():
+    return render_template('app.html', led_list=led_list,
+                           arm_list=ARM_LED_LIST,
+                           api_server=make_url('/'))
+
+
+# @app.route('/static/<path:path>')
+# def static_proxy(path):
+    # send_static_file will guess the correct MIME type
+#    return app.send_static_file(os.path.join('static/js', path))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)

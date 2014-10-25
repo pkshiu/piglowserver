@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block angular %}
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+<script src="/static/js/app.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div ng-app="">
+<div ng-controller="PgController">
+    <div ng-model="alerts">
+    </div>
+
+    {% raw %}
+    <div ng-repeat="i in led_list">
+        <button ng-click="setLed(i,100)">{{ i}}</button>
+    </div>
+    {% endraw %}
+
+<br />
+ <button ng-click="clear()">All Clear</button>
+</div>{# controller #}
+</div>{# app #}
+
+{% endblock %}
+
