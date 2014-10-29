@@ -140,6 +140,108 @@ This diagram shows how you can use varies pieces of __piglowserver__
 
 ![Usage Examples](pg_rest_server.png)
 
+# API Reference
+
+## Individual LED
+
+```
+        Set the brightness of a LED
+
+        PUT /leds/:led_id
+
+        URL Parameters:
+        led_id=[integer 1-18]
+
+        Optional:
+        brightness=[integer 0-255]
+
+        Data Parameters (optional):
+        {
+            "brightness": [integer 0-255]
+        }
+
+        CURL example:
+        curl -X PUT localhost:5000/leds/10?brightness=100
+
+```
+
+## LED "Arms"
+
+
+```
+        Set the brightness of one of the three spiral arms.
+
+        PUT /arms/:arm_id
+
+        URL Parameters:
+        arm_id=[integer 1-3]
+
+        Optional:
+        brightness=[integer 0-255]
+
+        Data Parameters (optional):
+        {
+            "brightness": [integer 0-255]
+        }
+
+        CURL example:
+        curl -X PUT localhost:5000/arms/2?brightness=100
+```
+
+## LED by colors (rings)
+
+
+```
+        Set the brightness of one of the six color "rings" on the spiral
+
+        PUT /colors/:color_id
+
+        URL Parameters:
+        color_id=[integer 1-6]
+
+        Optional:
+        brightness=[integer 0-255]
+
+        Data Parameters (optional):
+        {
+            "brightness": [integer 0-255]
+        }
+
+        CURL example:
+        curl -X PUT localhost:5000/colors/6?brightness=100
+```
+
+## Multiple LEDs
+
+```
+        Set the brightness of one or more LEDs
+
+        PUT /leds
+
+        URL Parameters:
+        None
+
+        Data Parameters (required), list of one or more dictionaries:
+        [
+            {
+                "led_id": [integer 1-18],
+                "brightness": [integer 0-255]
+            },
+
+            {
+                "led_id": [integer 1-18],
+                "brightness": [integer 0-255]
+            }
+        ]
+
+        curl example
+
+        curl -X PUT -H 'Content-Type: application/json' 
+            -d '[{"led_id":1,\"brightness":100}, {"led_id":2, "brightness":100} ]' localhost:5000/leds
+```
+
+
+
 # License
 This project is licensed under the MIT license.
 

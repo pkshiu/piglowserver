@@ -105,8 +105,7 @@ def set_colors():
 
 @app.route('/app', methods=['GET', ])
 def app_view():
-    return render_template('app.html', led_list=led_list,
-                           arm_list=ARM_LED_LIST,
+    return render_template('app.html',
                            api_server=make_url('/'))
 
 

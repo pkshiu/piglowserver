@@ -3,6 +3,7 @@
 {% block angular %}
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 <script src="/static/js/app.js"></script>
+<script src="/static/js/ui-bootstrap-tpls-0.11.2.min.js"></script>
 {% endblock %}
 
 
@@ -12,14 +13,36 @@
     <div ng-model="alerts">
     </div>
 
-    {% raw %}
-    <div ng-repeat="i in led_list">
-        <button ng-click="setLed(i,100)">{{ i}}</button>
-    </div>
-    {% endraw %}
+<div class="row">
+<div class="btn-group">
+<button class="btn btn-default" ng-click="clear()">All Off</button>
+<button class="btn btn-default" ng-click="setArm(1, 100)">Arm 1</button>
+<button class="btn btn-default" ng-click="setArm(2, 100)">Arm 2</button>
+<button class="btn btn-default" ng-click="setArm(3, 100)">Arm 3</button>
+</div>
+<p>
+</div>
 
-<br />
- <button ng-click="clear()">All Clear</button>
+{% raw %}
+<div class="row">
+<p>
+{{ leds }}
+</p>
+    </div>
+
+<div ng-repeat="arm in [1,2,3]">
+
+<div class="row">
+    <div ng-repeat="led in led_list|filter:{arm:arm}" class="btn-group">
+        <button class="btn btn-default" ng-click="setLed(led.number,100)">{{ led.number}}:color {{led.color}}</button>
+    </div>
+<p>
+</div>
+</div>
+
+
+{% endraw %}
+
 </div>{# controller #}
 </div>{# app #}
 

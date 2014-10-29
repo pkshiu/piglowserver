@@ -24,6 +24,7 @@
         http://localhost:5000/leds
 """
 import threading
+from time import sleep
 
 from flask import Flask
 from flask import request
@@ -111,7 +112,7 @@ def set_clear():
         pyglow.all(brightness=0)
 
 
-def set_starburst(brightness):
+def set_starburst(brightness, speed_ms):
     """
     Execute starburst pattern
     :param brightness: is the light level, from 0-255
@@ -124,6 +125,7 @@ def set_starburst(brightness):
         pyglow.all(brightness=0)
         for i in range(1, 7):
             pyglow.color(i, brightness=brightness)
+            sleep(speed_ms / 1000)
             pyglow.color(i, brightness=0)
 
 
@@ -163,6 +165,11 @@ class PiGlowResourceMixin(object):
         if color_id is None or not color_id in range(1, 7):
             abort(404, message='color id must be in the range of 1 to 6')
 
+    def validate_speed(self, msec):
+        """ speed is in millseconds """
+        if msec is None or not msec in range(0, 5000):
+            abort(404, message='speed must be milliseconds in the range of 0 to 5000')
+
     def queue_command(self, func, *args):
         """
         Queue function with optional args in a separate thread.
@@ -176,6 +183,32 @@ class PiGlowResourceMixin(object):
 class LedListAPI(PiGlowResourceMixin, Resource):
     """
         REST interface to the list of LED as a whole.
+
+        Set the brightness of one or more LEDs
+
+        PUT /leds
+
+        URL Parameters:
+        None
+
+        Data Parameters (required), list of one or more dictionaries:
+        [
+            {
+                "led_id": [integer 1-18],
+                "brightness": [integer 0-255]
+            },
+
+            {
+                "led_id": [integer 1-18],
+                "brightness": [integer 0-255]
+            }
+        ]
+
+        curl example
+
+        curl -X PUT -H 'Content-Type: application/json'
+            -d '[{"led_id":1,\"brightness":100}, {"led_id":2, "brightness":100} ]' localhost:5000/leds
+
     """
     def get(self):
         return led_list
@@ -198,13 +231,34 @@ class LedListAPI(PiGlowResourceMixin, Resource):
 
 class LedAPI(PiGlowResourceMixin, Resource):
     """
-        REST interface to control the LEDs.
+        REST interface to control individual LED.
+
     """
     def get(self, led_id):
+        """
+        Get the brightness of a LED.
+
+        (These are cached values, not necessary correct!)
+        """
         return led_list[led_id]
 
     def put(self, led_id):
+        """
+        Set the brightness of a LED
 
+        PUT /leds/:id
+
+        URL Parameters:
+        id=[integer] in the range of 1-18
+
+        Optional:
+        brightness=[integer 0-255]
+
+        Data Parameters (optional):
+        {
+            "brightness": [integer 0-255]
+        }
+        """
         self.validate_led_id(led_id)
 
         parser = reqparse.RequestParser()
@@ -300,11 +354,13 @@ class PatternAPI(PiGlowResourceMixin, Resource):
         args = parser.parse_args()
         b = args.get('brightness')
         self.validate_brightness(b)
+        s = args.get('speed')
+        self.validate_speed(s)
 
         if pattern_name == 'clear':
             self.queue_command(set_clear)
         if pattern_name == 'starburst':
-            self.queue_command(set_starburst, b)
+            self.queue_command(set_starburst, b, s)
         return led_list
 
 api.add_resource(LedListAPI, '/leds')
