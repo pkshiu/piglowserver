@@ -22,5 +22,6 @@ setup(name= 'PiGlowServer',
       classifiers = classifiers,
       packages = ['piglowserver'],
       package_data = {'piglowserver': ['templates/*.html']},
-      install_requires= ['requests', 'flask', 'flask-restful'],
+      install_requires=['requests', 'flask', 'flask-restful'],
+      scripts=['bin/pg_control'],
 )
