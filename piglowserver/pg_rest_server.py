@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
     This is a REST server that accept requests to control the PiGlow board.
 
