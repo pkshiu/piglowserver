@@ -80,6 +80,13 @@ This will typically result in the files going to:
 
 Because __piglowserver__ requires flask etc, those will also be installed globally.
 
+## Optoin 3: Install as source
+If you want to play with the source files, you will want to checkout the source from github directly. If you run from source, make sure the project root directory (src) is in your python path:
+
+```
+export PYTHONPATH={my_virtual_env}/src
+```
+
 ## Getting Hardware Permission
 
 Because accessing the PiGlow board requires access to the i2c bus and library, your normal "pi" user account cannot do that. Do *not* run as root or use *sudo*. Instead, simple add the user to the i2c user group:
@@ -103,6 +110,11 @@ python /usrlocal/lib/python2.7/site-packages/piglowserver/pg_control.py
 
 # now point your browser to your RPi on port 8000 and try the web interface
 http://YOUR_RPI_IP_ADDRESS:8000
+```
+
+If you get an error about not finding the config module ```ImportError: No module named config``` when running from source you need to add the _src_ directory to PYTHONPATH:
+```
+export PYTHONPATH={my_virtual_env}/src
 ```
 
 # Additional Settings
