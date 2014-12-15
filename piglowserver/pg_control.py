@@ -5,7 +5,6 @@
 """
 import requests
 import json
-import os
 
 
 from flask import (Flask, url_for, redirect)
@@ -13,8 +12,9 @@ from flask import (render_template, request)
 
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('piglowserver.config')
 # You can override config with local config file by setting PGS_SETTINGS
+# EXPORT PGS_SETTINGS=local_config.py
 app.config.from_envvar('PGS_SETTINGS', silent=True)
 print 'using API Server at: ', app.config['API_SERVER']
 
@@ -107,7 +107,7 @@ def set_colors():
 @app.route('/app', methods=['GET', ])
 def app_view():
     return render_template('app.html',
-                           api_server=make_url('/'))
+                           API_SERVER=make_url(''))
 
 
 # @app.route('/static/<path:path>')

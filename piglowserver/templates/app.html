@@ -4,11 +4,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
 <script src="/static/js/app.js"></script>
 <script src="/static/js/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<style>
+.led-button { width: 120px; }
+</style>
 {% endblock %}
 
 
 {% block content %}
-<div ng-app="">
+<div ng-app="pgApp" ng-init="API_SERVER ='{{ API_SERVER }}'">
 <div ng-controller="PgController">
     <div ng-model="alerts">
     </div>
@@ -34,7 +37,7 @@
 
 <div class="row">
     <div ng-repeat="led in led_list|filter:{arm:arm}" class="btn-group">
-        <button class="btn btn-default" ng-click="setLed(led.number,100)">{{ led.number}}:color {{led.color}}</button>
+        <button class="btn btn-default led-button" ng-click="setLed(led.number,100)">{{ led.number}}:color {{led.color}}</button>
     </div>
 <p>
 </div>
