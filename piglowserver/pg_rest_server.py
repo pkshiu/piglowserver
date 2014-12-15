@@ -43,6 +43,17 @@ except ImportError:
 app = Flask(__name__)
 api = Api(app)
 
+
+@app.after_request
+def add_cors_headers(response):
+    """ To allow CORS """
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods', 'PUT, POST, GET')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return response
+
+
 # internal cache of LED status
 led_list = [{'led_id': i, 'brightness': 0} for i in range(1, 19)]
 
