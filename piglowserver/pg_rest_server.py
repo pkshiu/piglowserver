@@ -137,7 +137,7 @@ def set_starburst(brightness, speed_ms):
         pyglow.all(brightness=0)
         for i in range(1, 7):
             pyglow.color(i, brightness=brightness)
-            sleep(speed_ms / 1000)
+            sleep(speed_ms / 1000.0)
             pyglow.color(i, brightness=0)
 
 
