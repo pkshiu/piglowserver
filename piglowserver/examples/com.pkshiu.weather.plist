@@ -1,0 +1,36 @@
+<!--
+    Apple OSX Launchd configuration file to run the weather script every hour.
+    Modified to fit your environment
+-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EnableTransactions</key>
+	<false/>
+	<key>KeepAlive</key>
+	<false/>
+	<key>Label</key>
+	<string>com.pkshiu.weather</string>
+	<key>ProgramArguments</key>
+	<array>
+	<string>/Users/pk/projects/piglowserver/bin/python</string>
+	<string>/Users/pk/projects/piglowserver/src/piglowserver/examples/weather.py</string>
+	</array>
+
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>/tmp/weather.log</string>
+	<key>StandardErrorPath</key>
+	<string>/tmp/weather.log</string>
+
+	<key>StartCalendarInterval</key>
+	<dict>
+          <key>Minute</key>
+          <integer>0</integer>
+          <key>Second</key>
+          <integer>0</integer>
+    </dict>
+</dict>
+</plist>
