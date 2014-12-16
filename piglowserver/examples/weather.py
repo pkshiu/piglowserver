@@ -65,8 +65,11 @@ WEATHER_CODES = [
 
 
 def get_temp(loc_text):
+    """
+        Get temperature and other info from yahoo weather.
+        :param loc_text:
+    """
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = "select wind from weather.forecast where woeid=2460286"
     yql_query = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="%s")' % loc_text
 
     yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
@@ -82,17 +85,17 @@ def get_temp(loc_text):
 def map_temp_to_led(f):
     """
     Map temperature in F to 1-6 where 1=hot, 6=freezing
-    Range split to 10F each level
+    Range split to 10F each level with last range below 32F
     """
-    for i in range(1, 7):
-        if f > 10 + (6 - i) * 10:
+    for i in range(1, 6):
+        if f > (5 - i) * 10 + 31:
             return i
-    return 1
+    return 6
 
 
 def set_led(led):
     requests.put('%s/patterns/clear' % API_SERVER)
-    data = {'brightness': 20}
+    data = {'brightness': 40}
     while led <= 6:
         requests.put('%s/leds/%d' % (API_SERVER, led), data=data)
         led += 1
